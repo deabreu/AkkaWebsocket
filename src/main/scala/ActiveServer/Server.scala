@@ -11,14 +11,22 @@ object Server extends HttpApp {
     path(""){
       complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "teste de linguaguem"))
     } ~
-    path(Segment)  {
-      inputString : String=>
+    path(Segment) {
+      inputString: String =>
         get {
           complete(
-            HttpEntity( ContentTypes.`text/html(UTF-8)`, s"<h1>The Return of the String</h1><p>$inputString</p>")
+            HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<h1>The Return of the String</h1><p>$inputString</p>")
           )
         }
-    }
+    } ~
+    path (""/ "hello"){
+      (get & parameter('name)){
+          name =>
+        complete (
+          HttpEntity(ContentTypes.`text/html(UTF-8)`,s"<h1 style=${'"'}text-align:center;${'"'}> Hello </h1><p>$name</p>")
+          )
+        }
+      }
 }
 
 object MyRunner extends App{
